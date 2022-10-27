@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:movie/reuse/reuseWidget.dart';
 import 'package:movie/screens/movies.dart';
+
 class MyRegister extends StatefulWidget {
   const MyRegister({Key? key}) : super(key: key);
 
@@ -10,16 +11,19 @@ class MyRegister extends StatefulWidget {
 }
 
 class _MyRegisterState extends State<MyRegister> {
-  TextEditingController name=TextEditingController();
-  TextEditingController email=TextEditingController();
-  TextEditingController pass=TextEditingController();
+  TextEditingController name = TextEditingController();
+  TextEditingController email = TextEditingController();
+  TextEditingController pass = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Container(
-    decoration:BoxDecoration(
-      image: DecorationImage(
-          image: AssetImage('assests/register.png',),fit: BoxFit.cover)
-    ),
+      decoration: BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage(
+                'assests/register.png',
+              ),
+              fit: BoxFit.cover)),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: Stack(
@@ -43,40 +47,62 @@ class _MyRegisterState extends State<MyRegister> {
                       margin: EdgeInsets.only(left: 35, right: 35),
                       child: Column(
                         children: [
-                          reusableTextField("Enter your name",Icons.person,false,name),
+                          reusableTextField(
+                              "Enter your name", Icons.person, false, name),
                           SizedBox(
                             height: 30,
                           ),
-                          reusableTextField("Enter your email",Icons.person_outline,false,email),
+                          reusableTextField("Enter your email",
+                              Icons.person_outline, false, email),
                           SizedBox(
                             height: 30,
                           ),
-                      reusableTextField("Enter your password",Icons.lock ,true,pass),
+                          reusableTextField(
+                              "Enter your password", Icons.lock, true, pass),
                           SizedBox(
                             height: 40,
                           ),
-
                           SizedBox(
                             height: 40,
                           ),
-                         firebaseUIButton(context, "Register", (){
-                           FirebaseAuth.instance.createUserWithEmailAndPassword(email: email.text, password:
-                           pass.text).then((value){
-                             Navigator.push(context, MaterialPageRoute(builder: (context)=>Movies()));
-                           }).onError((error, stackTrace) {
-                             print("Error${error.toString()}");
-                           });
-
-                         })
+                          firebaseUIButton(context, "Register", () {
+                            if (email.text.isEmpty) {
+                              snackbar(context, "Please enter mail");
+                            }
+                            // reg expression for email validation
+                             if (!RegExp(
+                                    "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
+                                .hasMatch(email.text)) {
+                              snackbar(context, "Please Enter a valid email");
+                            }
+                            RegExp regex = new RegExp(r'^.{6,}$');
+                            if (pass.text.isEmpty) {
+                              snackbar(context, "Please enter password");
+                            }
+                            if (!regex.hasMatch(pass.text)) {
+                              snackbar(context, "please enter minimum 6 length password");
+                            }
+                             else {
+                              FirebaseAuth.instance
+                                  .createUserWithEmailAndPassword(
+                                      email: email.text, password: pass.text)
+                                  .then((value) {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Movies()));
+                              }).onError((error, stackTrace) {
+                                snackbar(context, error.toString());
+                                print(error.toString());
+                              });
+                            }
+                          })
                         ],
                       ),
-
                     )
                   ],
                 ),
-
               ),
-
             ),
           ],
         ),

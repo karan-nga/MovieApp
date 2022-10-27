@@ -1,15 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-TextField reusableTextField(String text, IconData icon, bool isPasswordType,
+TextFormField reusableTextField(String text, IconData icon, bool isPasswordType,
     TextEditingController controller) {
-  return TextField(
+  return TextFormField(
     controller: controller,
     obscureText: isPasswordType,
     enableSuggestions: !isPasswordType,
     autocorrect: !isPasswordType,
-    cursorColor: Colors.grey.shade500,
-    style: TextStyle(color: Colors.white.withOpacity(0.9)),
+    cursorColor: Colors.black,
+    style: TextStyle(color: Colors.black),
     decoration: InputDecoration(
       prefixIcon: Icon(
         icon,
@@ -57,4 +57,9 @@ Container firebaseUIButton(BuildContext context, String title, Function onTap) {
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)))),
     ),
   );
+}
+void snackbar(BuildContext context,String msg) {
+  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    content: Text(msg),
+  ));
 }
