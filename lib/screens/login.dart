@@ -19,17 +19,28 @@ class _MyLoginState extends State<MyLogin> {
   @override
   Widget build(BuildContext context) {
     return Container(
+
       decoration: BoxDecoration(
         image: DecorationImage(
             image: AssetImage('assests/login.png',), fit: BoxFit.cover),
       ),
       child: Scaffold(
+        appBar: AppBar(
+          centerTitle: false,
+          title: Text(
+            'Login',
+            style: TextStyle(fontSize: 25.0, color: Colors.black),
+          ),
+          elevation: 0.0,
+          backgroundColor: Colors.transparent,
+        ),
+
         backgroundColor: Colors.transparent,
         body: Stack(
           children: [
             Container(),
             Container(
-              padding: EdgeInsets.only(left: 35, top: 130),
+              padding: EdgeInsets.only(left: 35, top: 100),
               child: Text(
                 'Welcome\nBack',
                 style: TextStyle(color: Colors.white, fontSize: 33),
@@ -41,7 +52,7 @@ class _MyLoginState extends State<MyLogin> {
                     top: MediaQuery
                         .of(context)
                         .size
-                        .height * 0.5),
+                        .height * 0.33),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -75,6 +86,9 @@ class _MyLoginState extends State<MyLogin> {
                                   snackbar(
                                       context, "Please Enter a valid email");
                                 }
+                               else if(pass.text.isEmpty){
+                                  snackbar(context, "Please enter password");
+                                }
                                 else {
                                   FirebaseAuth.instance
                                       .signInWithEmailAndPassword(
@@ -97,7 +111,7 @@ class _MyLoginState extends State<MyLogin> {
                             ],
                           ),
                           SizedBox(
-                            height: 40,
+                            height: 10,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
