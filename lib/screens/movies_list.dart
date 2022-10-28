@@ -1,11 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:movie/screens/login.dart';
 import 'package:movie/screens/movies.dart';
 import 'package:movie/screens/search_movies.dart';
-
-import '../models/movie_result_model.dart';
 
 class MoviesList extends StatefulWidget {
   @override
@@ -16,14 +13,10 @@ class _MoviesListState extends State<MoviesList> {
   int currentIndex = 0;
   List<Widget> _screens = [Movies(), MoviesSearch(), MyLogin()];
 
-
-
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: Color(0xff191826),
-
       body: IndexedStack(
         index: currentIndex,
         children: _screens,
@@ -33,7 +26,6 @@ class _MoviesListState extends State<MoviesList> {
         onTap: (index) => setState(() => currentIndex = index),
         type: BottomNavigationBarType.fixed,
         backgroundColor: Color(0xA1191826),
-
         selectedItemColor: Colors.blueAccent,
         unselectedItemColor: Colors.white.withOpacity(.60),
         selectedFontSize: 14,
@@ -47,7 +39,6 @@ class _MoviesListState extends State<MoviesList> {
             label: 'Search',
             icon: Icon(Icons.search),
           ),
-
         ],
       ),
     );
