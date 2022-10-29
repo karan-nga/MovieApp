@@ -1,17 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:movie/screens/login.dart';
-import 'package:movie/screens/movies.dart';
-import 'package:movie/screens/search_movies.dart';
+import 'package:movie/screens/search/movies_find.dart';
+import 'login.dart';
+import 'movies.dart';
 
 class MoviesList extends StatefulWidget {
+
+
   @override
   State<MoviesList> createState() => _MoviesListState();
 }
 
 class _MoviesListState extends State<MoviesList> {
   int currentIndex = 0;
-  List<Widget> _screens = [Movies(), MoviesSearch(), MyLogin()];
+  List<Widget> _screens = [Movies(),MoviesFind(),  MyLogin()];
 
   @override
   Widget build(BuildContext context) {

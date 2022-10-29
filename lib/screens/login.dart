@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:movie/reuse/reuseWidget.dart';
 import 'package:movie/screens/movies.dart';
 import 'package:movie/screens/movies_list.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyLogin extends StatefulWidget {
   const MyLogin({Key? key}) : super(key: key);
@@ -75,7 +76,7 @@ class _MyLoginState extends State<MyLogin> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
 
-                              firebaseUIButton(context, "Login", () {
+                              firebaseUIButton(context, "Login", () async {
                                 if (email.text.isEmpty) {
                                   snackbar(context, "Please enter mail");
                                 }
@@ -90,6 +91,8 @@ class _MyLoginState extends State<MyLogin> {
                                   snackbar(context, "Please enter password");
                                 }
                                 else {
+                                  SharedPreferences preference=await SharedPreferences.getInstance();
+                                  preference.setString('email', email.text);
                                   FirebaseAuth.instance
                                       .signInWithEmailAndPassword(
                                       email: email.text, password: pass.text)

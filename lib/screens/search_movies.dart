@@ -19,7 +19,7 @@ class _MoviesSearchState extends State<MoviesSearch> {
   @override
   void initState() {
     super.initState();
-    searchMovie("black adam");
+    searchMovie("adam");
   }
 
   Future searchMovie(String name) async {
@@ -75,7 +75,7 @@ class _MoviesSearchState extends State<MoviesSearch> {
                   prefixIcon: Icon(Icons.search),
                   prefixIconColor: Colors.white,
                 ),
-                onSubmitted: (String value) {
+                onChanged: (String value) {
                   setState(() {
                     body = value;
                     searchMovie(body.trim());
@@ -102,8 +102,18 @@ class _MoviesSearchState extends State<MoviesSearch> {
                               moviesData[index].voteAverage.toString(),
                               style: TextStyle(color: Colors.amber),
                             ),
-                            leading: Image.network(
-                                "https://image.tmdb.org/t/p/w500${moviesData[index].posterPath}"),
+                            leading:  FadeInImage(
+                              image: NetworkImage("https://image.tmdb.org/t/p/w500/${moviesData[index].posterPath}"),
+                              placeholder: AssetImage(
+                                  "assests/warning.png"),
+                              imageErrorBuilder:
+                                  (context, error, stackTrace) {
+                                return Image.asset(
+                                    'assests/warning.png'
+                                );
+                              },
+
+                            ),
                           )))
             ],
           ),
@@ -172,3 +182,4 @@ class _MoviesSearchState extends State<MoviesSearch> {
 //                 )));
 //   }
 // }
+

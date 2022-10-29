@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+
 import '../models/movie_result_model.dart';
 import 'detail.dart';
 
@@ -73,14 +74,21 @@ class _MoviesState extends State<Movies> {
                     children: [
                       Container(
                         height: 250,
+                        width: 200,
                         alignment: Alignment.centerLeft,
                         child: Card(
-                          child: Image.network(
-                              "https://image.tmdb.org/t/p/w500${moviesData[index].posterPath}"),
+                          child: FadeInImage(
+                            image: NetworkImage(
+                                "https://image.tmdb.org/t/p/w500/${moviesData[index].posterPath}"),
+                            placeholder: AssetImage("assests/load.png"),
+                            imageErrorBuilder: (context, error, stackTrace) {
+                              return Image.asset('assests/warning.png');
+                            },
+                          ),
                         ),
                       ),
                       SizedBox(
-                        width: 20,
+                        width: 10,
                       ),
                       Expanded(
                         child: Container(
@@ -92,7 +100,10 @@ class _MoviesState extends State<Movies> {
                               ),
                               Text(
                                 moviesData[index].originalTitle,
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.bold),
                               ),
                               SizedBox(
                                 height: 10,
@@ -100,19 +111,29 @@ class _MoviesState extends State<Movies> {
                               Text(
                                 moviesData[index]
                                     .releaseDate
-                                    .toLocal()
-                                    .toString(),
-                                style: TextStyle(color: Color(0xff868597)),
+                                    .toString()
+                                    .substring(0, 4),
+                                style:
+                                    TextStyle(color: Colors.grey, fontSize: 16),
                               ),
                               SizedBox(
                                 height: 10,
                               ),
-                              Container(
-                                height: 100,
-                                child: Text(
+                            Text(
                                   moviesData[index].overview,
-                                  style: TextStyle(color: Color(0xff868597)),
+                                  maxLines: 3,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
                                 ),
+                              ),
+                              SizedBox(height: 10),
+                              Text(
+                                'IMDB ${moviesData[index].voteAverage.toString()}',
+                                style:
+                                    TextStyle(color: Colors.grey, fontSize: 16),
                               ),
                             ],
                           ),
