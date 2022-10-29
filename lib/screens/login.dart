@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:movie/reuse/reuseWidget.dart';
-import 'package:movie/screens/movies.dart';
 import 'package:movie/screens/movies_list.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -20,10 +19,12 @@ class _MyLoginState extends State<MyLogin> {
   @override
   Widget build(BuildContext context) {
     return Container(
-
       decoration: BoxDecoration(
         image: DecorationImage(
-            image: AssetImage('assests/login.png',), fit: BoxFit.cover),
+            image: AssetImage(
+              'assests/login.png',
+            ),
+            fit: BoxFit.cover),
       ),
       child: Scaffold(
         appBar: AppBar(
@@ -35,7 +36,6 @@ class _MyLoginState extends State<MyLogin> {
           elevation: 0.0,
           backgroundColor: Colors.transparent,
         ),
-
         backgroundColor: Colors.transparent,
         body: Stack(
           children: [
@@ -50,10 +50,7 @@ class _MyLoginState extends State<MyLogin> {
             SingleChildScrollView(
               child: Container(
                 padding: EdgeInsets.only(
-                    top: MediaQuery
-                        .of(context)
-                        .size
-                        .height * 0.33),
+                    top: MediaQuery.of(context).size.height * 0.33),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -61,9 +58,8 @@ class _MyLoginState extends State<MyLogin> {
                       margin: EdgeInsets.only(left: 35, right: 35),
                       child: Column(
                         children: [
-                          reusableTextField(
-                              "Enter your email", Icons.person_outline, false,
-                              email),
+                          reusableTextField("Enter your email",
+                              Icons.person_outline, false, email),
                           SizedBox(
                             height: 30,
                           ),
@@ -75,42 +71,43 @@ class _MyLoginState extends State<MyLogin> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-
                               firebaseUIButton(context, "Login", () async {
                                 if (email.text.isEmpty) {
                                   snackbar(context, "Please enter mail");
                                 }
                                 // reg expression for email validation
-                               else if (!RegExp(
-                                    "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
+                                else if (!RegExp(
+                                        "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
                                     .hasMatch(email.text)) {
                                   snackbar(
                                       context, "Please Enter a valid email");
-                                }
-                               else if(pass.text.isEmpty){
+                                } else if (pass.text.isEmpty) {
                                   snackbar(context, "Please enter password");
-                                }
-                                else {
-                                  SharedPreferences preference=await SharedPreferences.getInstance();
+                                } else {
+                                  SharedPreferences preference =
+                                      await SharedPreferences.getInstance();
                                   preference.setString('email', email.text);
                                   FirebaseAuth.instance
                                       .signInWithEmailAndPassword(
-                                      email: email.text, password: pass.text)
+                                          email: email.text,
+                                          password: pass.text)
                                       .then((value) {
                                     snackbar(context, "Login sucessfull");
-                                    Navigator.push(context, MaterialPageRoute(
-                                        builder: (context) => MoviesList()));
+                                    Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            MoviesList(),
+                                      ),
+                                      (route) => false,
+                                    );
                                   }).onError((error, stackTrace) {
                                     snackbar(context, error.toString());
                                     print(error.toString());
                                   });
                                 }
-                                {
-
-
-                                }
-                              }
-                              )
+                                {}
+                              })
                             ],
                           ),
                           SizedBox(
@@ -130,12 +127,10 @@ class _MyLoginState extends State<MyLogin> {
                                   'Sign Up',
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
-                                      color: Colors.blue,
-                                      fontSize: 18),
+                                      color: Colors.blue, fontSize: 18),
                                 ),
                                 style: ButtonStyle(),
                               ),
-
                             ],
                           )
                         ],

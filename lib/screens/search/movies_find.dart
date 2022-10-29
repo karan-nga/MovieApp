@@ -45,7 +45,6 @@ class MoviesDelegate extends SearchDelegate<String> {
     if (response.statusCode == 200) {
       final moviesResult = searchModelFromJson(response.body);
       moviesData = moviesResult.results;
-
       print(moviesData.toString());
     } else {
       print('Request failed with status :${response.statusCode}');
@@ -163,7 +162,7 @@ class MoviesDelegate extends SearchDelegate<String> {
               // leading: Icon(Icons.autorenew),
               // title: Text(suggestion),
               title: Text(
-                suggestion.title.toString(),style: TextStyle(
+                  suggestion.title.toString(),style: TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
@@ -171,7 +170,7 @@ class MoviesDelegate extends SearchDelegate<String> {
               ),
               subtitle: Text(
                 relaseYear,
-                  style: TextStyle(color:Colors.grey,fontWeight: FontWeight.bold),
+                style: TextStyle(color:Colors.grey,fontWeight: FontWeight.bold),
               ),
               trailing: Text(
                 suggestion.voteAverage.toString(),
@@ -185,7 +184,7 @@ class MoviesDelegate extends SearchDelegate<String> {
                     (context, error, stackTrace) {
                   return Image.asset(
                       'assests/warning.png'
-                     );
+                  );
                 },
 
               )
@@ -196,4 +195,3 @@ class MoviesDelegate extends SearchDelegate<String> {
 
 
 }
-

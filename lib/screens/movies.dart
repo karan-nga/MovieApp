@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:movie/screens/nav_bar.dart';
 
 import '../models/movie_result_model.dart';
 import 'detail.dart';
@@ -41,6 +42,7 @@ class _MoviesState extends State<Movies> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: NavBar(),
       backgroundColor: Color(0xff191826),
       appBar: AppBar(
         centerTitle: false,
@@ -58,7 +60,7 @@ class _MoviesState extends State<Movies> {
               ),
             )
           : ListView.builder(
-              padding: EdgeInsets.all(8),
+            padding: EdgeInsets.zero,
               shrinkWrap: true,
               itemCount: (moviesData != null) ? moviesData.length : 0,
               itemBuilder: (BuildContext context, index) {
@@ -76,16 +78,15 @@ class _MoviesState extends State<Movies> {
 
                       Container(
                         height: 250,
+                    color: Colors.transparent,
                         alignment: Alignment.centerLeft,
-                        child: Card(shadowColor: Color(0xff191826),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15.0),
-                          ),
-                          child: FadeInImage(
-                            image: NetworkImage(
-                                "https://image.tmdb.org/t/p/w500/${moviesData[index].posterPath}"),
-                            placeholder: AssetImage("assests/load.png"),
+                        child: Card(color: Colors.transparent,
 
+                          child: FadeInImage(placeholderFit: BoxFit.cover,
+                            image: NetworkImage(
+                                "https://image.tmdb.org/t/p/w500/${moviesData[index].posterPath}",),
+
+                            placeholder: AssetImage("assests/load.png"),
                             imageErrorBuilder: (context, error, stackTrace) {
                               return Image.asset('assests/warning.png');
                             },
@@ -136,7 +137,7 @@ class _MoviesState extends State<Movies> {
                               Text(
                                 'IMDB ${moviesData[index].voteAverage.toString()}',
                                 style:
-                                    TextStyle(color: Colors.grey, fontSize: 16),
+                                    TextStyle(color: Colors.amber, fontSize: 16),
                               ),
                             ],
                           ),
