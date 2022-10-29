@@ -19,7 +19,7 @@ class MoviesDetails extends StatelessWidget {
     return Scaffold(
       appBar: PreferredSize(
         child: SafeArea(
-          child: AppBar(
+          child: AppBar(title: Text(movieName),
             flexibleSpace: FadeInImage.memoryNetwork(
               placeholder: kTransparentImage,
               image:

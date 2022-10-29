@@ -45,7 +45,7 @@ class _MoviesState extends State<Movies> {
       appBar: AppBar(
         centerTitle: false,
         title: Text(
-          'Movies',
+          'MOVIES',
           style: TextStyle(fontSize: 25.0, color: Color(0xfff43370)),
         ),
         elevation: 0.0,
@@ -60,7 +60,7 @@ class _MoviesState extends State<Movies> {
           : ListView.builder(
               padding: EdgeInsets.all(8),
               shrinkWrap: true,
-              itemCount: (moviesData != null) ? moviesData.length : 1,
+              itemCount: (moviesData != null) ? moviesData.length : 0,
               itemBuilder: (BuildContext context, index) {
                 return InkWell(
                   onTap: () {
@@ -71,16 +71,21 @@ class _MoviesState extends State<Movies> {
                                 MoviesDetails(moviesData, index)));
                   },
                   child: Row(
-                    children: [
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children:[
+
                       Container(
                         height: 250,
-                        width: 200,
                         alignment: Alignment.centerLeft,
-                        child: Card(
+                        child: Card(shadowColor: Color(0xff191826),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15.0),
+                          ),
                           child: FadeInImage(
                             image: NetworkImage(
                                 "https://image.tmdb.org/t/p/w500/${moviesData[index].posterPath}"),
                             placeholder: AssetImage("assests/load.png"),
+
                             imageErrorBuilder: (context, error, stackTrace) {
                               return Image.asset('assests/warning.png');
                             },
@@ -88,16 +93,14 @@ class _MoviesState extends State<Movies> {
                         ),
                       ),
                       SizedBox(
-                        width: 10,
+                        width: 15,
                       ),
                       Expanded(
                         child: Container(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              SizedBox(
-                                height: 20.0,
-                              ),
+
                               Text(
                                 moviesData[index].originalTitle,
                                 style: TextStyle(
