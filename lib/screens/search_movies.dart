@@ -89,13 +89,13 @@ class _MoviesSearchState extends State<MoviesSearch> {
                       itemBuilder: (context, index) => ListTile(
                             contentPadding: EdgeInsets.all(8.0),
                             title: Text(
-                              moviesData[index].title,
+                              moviesData[index].title!,
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold),
                             ),
                             subtitle: Text(
-                              moviesData[index].releaseDate.substring(0, 4),
+                              moviesData[index].releaseDate!.substring(0, 4),
                               style: TextStyle(color: Colors.white70),
                             ),
                             trailing: Text(
