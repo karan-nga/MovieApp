@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:movie/screens/nav_bar.dart';
+import 'package:movie/screens/trending_movies_list.dart';
 
 import '../models/movie_result_model.dart';
 import 'detail.dart';
@@ -59,95 +60,110 @@ class _MoviesState extends State<Movies> {
                 color: Colors.blueAccent,
               ),
             )
-          : ListView.builder(
-            padding: EdgeInsets.zero,
-              shrinkWrap: true,
-              itemCount: (moviesData != null) ? moviesData.length : 0,
-              itemBuilder: (BuildContext context, index) {
-                return InkWell(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                MoviesDetails(moviesData, index)));
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children:[
+          : Container(
 
-                      Container(
-                        height: 250,
-                    color: Colors.transparent,
-                        alignment: Alignment.centerLeft,
-                        child: Card(color: Colors.transparent,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ListView.builder(
+                    padding: EdgeInsets.zero,
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: (moviesData != null) ? moviesData.length : 0,
+                    itemBuilder: (BuildContext context, index) {
+                      return InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      MoviesDetails(moviesData, index)));
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children:[
 
-                          child: FadeInImage(placeholderFit: BoxFit.cover,
-                            image: NetworkImage(
-                                "https://image.tmdb.org/t/p/w500/${moviesData[index].posterPath}",),
+                            Container(
+                              height: 250,
+                              color: Colors.transparent,
+                              alignment: Alignment.centerLeft,
+                              child: Card(color: Colors.transparent,
 
-                            placeholder: AssetImage("assests/load.png"),
-                            imageErrorBuilder: (context, error, stackTrace) {
-                              return Image.asset('assests/warning.png');
-                            },
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 15,
-                      ),
-                      Expanded(
-                        child: Container(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
+                                child: FadeInImage(placeholderFit: BoxFit.cover,
+                                  image: NetworkImage(
+                                    "https://image.tmdb.org/t/p/w500/${moviesData[index].posterPath}",),
 
-                              Text(
-                                moviesData[index].originalTitle,
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                moviesData[index]
-                                    .releaseDate
-                                    .toString()
-                                    .substring(0, 4),
-                                style:
-                                    TextStyle(color: Colors.grey, fontSize: 16),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                            Text(
-                                  moviesData[index].overview,
-                                  maxLines: 3,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      color: Colors.grey,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
+                                  placeholder: AssetImage("assests/load.png"),
+                                  imageErrorBuilder: (context, error, stackTrace) {
+                                    return Image.asset('assests/warning.png');
+                                  },
                                 ),
                               ),
-                              SizedBox(height: 10),
-                              Text(
-                                'IMDB ${moviesData[index].voteAverage.toString()}',
-                                style:
-                                    TextStyle(color: Colors.amber, fontSize: 16),
+                            ),
+                            SizedBox(
+                              width: 15,
+                            ),
+                            Expanded(
+                              child: Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+
+                                    Text(
+                                      moviesData[index].originalTitle,
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text(
+                                      moviesData[index]
+                                          .releaseDate
+                                          .toString()
+                                          .substring(0, 4),
+                                      style:
+                                      TextStyle(color: Colors.grey, fontSize: 16),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text(
+                                      moviesData[index].overview,
+                                      maxLines: 3,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(height: 10),
+                                    Text(
+                                      'IMDB ${moviesData[index].voteAverage.toString()}',
+                                      style:
+                                      TextStyle(color: Colors.amber, fontSize: 16),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      ),
-                    ],
+                      );
+                    },
                   ),
-                );
-              },
+                  Flexible(child: TrendingMoviesList()),
+                ],
+              ),
             ),
-    );
+
+      ),
+
+          );
+
   }
 }

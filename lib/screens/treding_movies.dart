@@ -11,12 +11,12 @@ class _SearchAppBarState extends State<SearchAppBar> {
   Icon actionIcon = new Icon(Icons.search);
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
+    return Scaffold(
+      appBar: AppBar(
           centerTitle: true,
           title:appBarTitle,
           actions: <Widget>[
-            new IconButton(icon: actionIcon,onPressed:(){
+            IconButton(icon: actionIcon,onPressed:(){
               setState(() {
                 if ( this.actionIcon.icon == Icons.search){
                   this.actionIcon = new Icon(Icons.close);
