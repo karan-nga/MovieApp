@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:movie/reuse/reuseWidget.dart';
+import 'package:movie/screens/login.dart';
 import 'package:movie/screens/movies.dart';
 
 class MyRegister extends StatefulWidget {
@@ -87,10 +88,14 @@ class _MyRegisterState extends State<MyRegister> {
                                   .createUserWithEmailAndPassword(
                                       email: email.text, password: pass.text)
                                   .then((value) {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => Movies()));
+                                Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        MyLogin(),
+                                  ),
+                                      (route) => false,
+                                );
                               }).onError((error, stackTrace) {
                                 snackbar(context, error.toString());
                                 print(error.toString());

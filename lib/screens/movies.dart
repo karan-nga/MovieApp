@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:movie/screens/nav_bar.dart';
+import 'package:movie/screens/search/movies_find.dart';
 import 'package:movie/screens/trending_movies_list.dart';
 
 import '../models/movie_result_model.dart';
@@ -53,6 +54,15 @@ class _MoviesState extends State<Movies> {
         ),
         elevation: 0.0,
         backgroundColor: Color(0xff191826),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () {
+              final result =
+              showSearch(context: context, delegate: MoviesDelegate());
+            },
+          )
+        ],
       ),
       body: (waiting)
           ? Center(
@@ -78,7 +88,10 @@ class _MoviesState extends State<Movies> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      MoviesDetails(moviesData, index)));
+                                      MoviesDetails(moviesData[index].posterPath.toString(),
+                                      moviesData[index].title.toString(),moviesData[index].overview,
+                                      moviesData[index].voteAverage.toString(),
+                                      moviesData[index].releaseDate.toString())));
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
