@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:movie/reuse/reuseWidget.dart';
+import 'package:movie/screens/movies.dart';
 import 'package:movie/screens/movies_list.dart';
+import 'package:movie/screens/register.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MyLogin extends StatefulWidget {
@@ -97,7 +99,7 @@ class _MyLoginState extends State<MyLogin> {
                                       context,
                                       MaterialPageRoute(
                                         builder: (BuildContext context) =>
-                                            MoviesList(),
+                                            Movies(),
                                       ),
                                       (route) => false,
                                     );
@@ -114,14 +116,23 @@ class _MyLoginState extends State<MyLogin> {
                             height: 10,
                           ),
                           Row(
+
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
+
                               const Text("Don't have an account?",
                                   style: TextStyle(
                                       color: Colors.black, fontSize: 18)),
                               TextButton(
                                 onPressed: () {
-                                  Navigator.pushNamed(context, 'register');
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          MyRegister(),
+                                    ),
+
+                                  );
                                 },
                                 child: Text(
                                   'Sign Up',

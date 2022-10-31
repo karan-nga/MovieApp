@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:movie/models/searchModel.dart';
 
 import '../../const/constants.dart';
+import '../detail.dart';
 
 class MoviesFind extends StatefulWidget {
   @override
@@ -35,12 +36,11 @@ class MoviesDelegate extends SearchDelegate<String> {
   List<Result> moviesData = [];
 
   Future<List<Result>> searchMovie(String name) async {
-
     http.Response response;
     name.replaceAll(' ', '');
-    if(name.isEmpty==false) {
+    if (name.isEmpty == false) {
       response = await http.get(Uri.parse('${ApiConstants.SearchUrl}+$name'));
-      print("searchMovie called with name="+name);
+      print("searchMovie called with name=" + name);
       if (response.statusCode == 200) {
         final moviesResult = searchModelFromJson(response.body);
         moviesData = moviesResult.results;
@@ -89,27 +89,30 @@ class MoviesDelegate extends SearchDelegate<String> {
       );
 
   @override
-  Widget buildSuggestions(BuildContext context) => FutureBuilder<List<Result>>(
-        future: searchMovie(query.toString()),
-        builder: (context, snapshot) {
-          print("box contain" + query.toString());
-          if (query.isEmpty) return noSearch();
+  Widget buildSuggestions(BuildContext context) => Container(
+    color:Color(0xff191826),
+    child: FutureBuilder<List<Result>>(
+          future: searchMovie(query.toString()),
+          builder: (context, snapshot) {
+            print("box contain" + query.toString());
+            if (query.isEmpty) return noSearch();
 
-          switch (snapshot.connectionState) {
-            case ConnectionState.waiting:
-              return Center(child: CircularProgressIndicator());
-            default:
-              if (snapshot.hasError || snapshot.data!.isEmpty) {
-                print("movies list data" + moviesData.toString());
-                print(snapshot.error);
-                print(snapshot.data.toString());
-                return noResult();
-              } else {
-                return buildSuggestionsSuccess(snapshot.data!);
-              }
-          }
-        },
-      );
+            switch (snapshot.connectionState) {
+              case ConnectionState.waiting:
+                return Center(child: CircularProgressIndicator());
+              default:
+                if (snapshot.hasError || snapshot.data!.isEmpty) {
+                  print("movies list data" + moviesData.toString());
+                  print(snapshot.error);
+                  print(snapshot.data.toString());
+                  return noResult();
+                } else {
+                  return buildSuggestionsSuccess(snapshot.data!);
+                }
+            }
+          },
+        ),
+  );
 
   Widget noSearch() {
     return Center(
@@ -119,14 +122,21 @@ class MoviesDelegate extends SearchDelegate<String> {
   }
 
   Widget noResult() {
-    return Center(
-      child: Text("Unable to find make sure name is correct",
-          style: TextStyle(fontSize: 28, color: Colors.amber)),
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      body: Container(
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage('assests/not_found.png'),
+                fit: BoxFit.fill
+            )
+        ),
+      ),
     );
   }
 
   Widget buildSuggestionsSuccess(List<Result> suggestions) {
-    suggestions=moviesData;
+    suggestions = moviesData;
     return ListView.builder(
         itemCount: suggestions.isEmpty != true ? suggestions.length : 0,
         itemBuilder: (context, index) {
@@ -142,14 +152,20 @@ class MoviesDelegate extends SearchDelegate<String> {
           return ListTile(
               contentPadding: EdgeInsets.all(14.0),
               onTap: () {
-                // query =  suggestion.originalTitle.toString();
-                showResults(context);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            MoviesDetails(moviesData[index].posterPath.toString(),
+                                moviesData[index].title.toString(),moviesData[index].overview.toString(),
+                            moviesData[index].voteAverage.toString(),
+                            moviesData[index].releaseDate.toString())));
               },
               // leading: Icon(Icons.autorenew),
               // title: Text(suggestion),
               title: Text(suggestion.title.toString(),
                   style: TextStyle(
-                    color: Colors.black,
+                    color: Colors.white,
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
                   )),
