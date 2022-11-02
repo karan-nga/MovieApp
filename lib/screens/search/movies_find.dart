@@ -135,6 +135,7 @@ class MoviesDelegate extends SearchDelegate<String> {
     );
   }
 
+
   Widget buildSuggestionsSuccess(List<Result> suggestions) {
     suggestions = moviesData;
     return ListView.builder(

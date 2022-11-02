@@ -60,6 +60,6 @@ Container firebaseUIButton(BuildContext context, String title, Function onTap) {
 }
 void snackbar(BuildContext context,String msg) {
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-    content: Text(msg),
+    content: Text(msg),backgroundColor: Colors.green,
   ));
 }

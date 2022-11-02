@@ -94,6 +94,7 @@ class _MyLoginState extends State<MyLogin> {
                                           email: email.text,
                                           password: pass.text)
                                       .then((value) {
+                                        CircularProgressIndicator(color: Colors.blueAccent,);
                                     snackbar(context, "Login sucessfull");
                                     Navigator.pushAndRemoveUntil(
                                       context,
