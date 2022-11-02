@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:movie/reuse/reuseWidget.dart';
-import 'package:movie/screens/login.dart';
+ import 'package:movie/screens/login.dart';
 import 'package:movie/screens/movies.dart';
 
 class MyRegister extends StatefulWidget {

@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:movie/screens/booking.dart';
 import 'package:transparent_image/transparent_image.dart';
+
+import '../reuse/reuseWidget.dart';
 
 class MoviesDetails extends StatelessWidget {
   final String poster;
@@ -62,7 +65,7 @@ class MoviesDetails extends StatelessWidget {
                     ),
                     Text(
 
-                      "Ratng:" + rating,
+                      "Rating:" + rating,
                       style: TextStyle(
                         fontSize: 18.0,
                         fontWeight: FontWeight.bold
@@ -75,8 +78,25 @@ class MoviesDetails extends StatelessWidget {
 
                   ],
                 ),
+                Row(
+                 verticalDirection: VerticalDirection.down,
+                  children: [
+                    firebaseUIButton(context,"Book Ticket",(){
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              MovieBooking(),
+                        ),
+
+                      );
+                    })
+                  ],
+                )
               ],
+
             ),
+
           ),
         ));
   }
