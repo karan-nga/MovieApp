@@ -86,16 +86,17 @@ class _MyLoginState extends State<MyLogin> {
                                 } else if (pass.text.isEmpty) {
                                   snackbar(context, "Please enter password");
                                 } else {
+
                                   SharedPreferences preference =
                                       await SharedPreferences.getInstance();
                                   preference.setString('email', email.text);
+
                                   FirebaseAuth.instance
                                       .signInWithEmailAndPassword(
                                           email: email.text,
                                           password: pass.text)
                                       .then((value) {
-                                        CircularProgressIndicator(color: Colors.blueAccent,);
-                                    snackbar(context, "Login sucessfull");
+                                    snackbar(context, "Login successful");
                                     Navigator.pushAndRemoveUntil(
                                       context,
                                       MaterialPageRoute(

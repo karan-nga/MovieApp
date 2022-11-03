@@ -27,7 +27,7 @@ class MoviesDetails extends StatelessWidget {
               backgroundColor: Colors.blue,
               flexibleSpace: FadeInImage.memoryNetwork(
                 placeholder: kTransparentImage,
-                image: "https://image.tmdb.org/t/p/w500${poster}",
+                image: "https://image.tmdb.org/t/p/w500$poster",
                 imageErrorBuilder: (context, error, stackTrace) {
                   return Image.asset('assests/warning.png');
                 },
@@ -36,68 +36,66 @@ class MoviesDetails extends StatelessWidget {
             ),
           ),
         ),
-        body: Container(
-          child: SingleChildScrollView(
-            child: Column(
+        body: SingleChildScrollView(
+          child: Column(
 
-              children: <Widget>[
-                SizedBox(height: 10.0),
-                Text(
-                  nameMovie,
-                  style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold),
+            children: <Widget>[
+              SizedBox(height: 10.0),
+              Text(
+                nameMovie,
+                style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 10.0),
+
+               Text("Overview",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 22,)),
+              SizedBox(height: 10,),
+              Text(
+                overview,
+                style: TextStyle(
+                  fontSize: 18.0,
                 ),
-                SizedBox(height: 10.0),
-
-                 Text("Overview",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 22,)),
-                SizedBox(height: 10,),
-                Text(
-                  overview,
-                  style: TextStyle(
-                    fontSize: 18.0,
+              ),
+              SizedBox(height: 10.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(left: 1.0, right: 1.0),
                   ),
-                ),
-                SizedBox(height: 10.0),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      margin: EdgeInsets.only(left: 1.0, right: 1.0),
-                    ),
-                    Text(
+                  Text(
 
-                      "Rating:" + rating,
-                      style: TextStyle(
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.bold
+                    "Rating:" + rating,
+                    style: TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold
+                    ),
+                  ),
+                  Icon(
+                    Icons.favorite,
+                    color: Colors.red,
+                  ),
+
+                ],
+              ),
+              Row(
+               verticalDirection: VerticalDirection.down,
+                children: [
+                  firebaseUIButton(context,"Book Ticket",(){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            MovieBooking(),
                       ),
-                    ),
-                    Icon(
-                      Icons.favorite,
-                      color: Colors.red,
-                    ),
 
-                  ],
-                ),
-                Row(
-                 verticalDirection: VerticalDirection.down,
-                  children: [
-                    firebaseUIButton(context,"Book Ticket",(){
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              MovieBooking(),
-                        ),
-
-                      );
-                    })
-                  ],
-                )
-              ],
-
-            ),
+                    );
+                  })
+                ],
+              )
+            ],
 
           ),
+
         ));
   }
 }

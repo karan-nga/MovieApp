@@ -1,19 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../reuse/reuseWidget.dart';
-
 class MovieBooking extends StatefulWidget {
   @override
   State<MovieBooking> createState() => _MovieBookingState();
 }
 
 class _MovieBookingState extends State<MovieBooking> {
+  DateTime dt=DateTime(2022,11,04);
   final formKey = GlobalKey<FormState>();
   String name = '';
   String email = '';
   String contact = '';
   String ticketNo = '';
+  String date='';
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,9 @@ class _MovieBookingState extends State<MovieBooking> {
               const SizedBox(
                 height: 15,
               ),
+              dateOnly(),
               buildSubmit()
+
             ],
           ),
         ));
@@ -87,7 +89,10 @@ class _MovieBookingState extends State<MovieBooking> {
         validator: (value) {
           if (value!.length > 10) {
             return 'Please enter only 10 digit number';
-          } else {
+          } else if(value.isEmpty){
+            return 'Please enter 10 digit phone number';
+          }
+          else {
             return null;
           }
         },
@@ -109,9 +114,36 @@ class _MovieBookingState extends State<MovieBooking> {
           final isValid = formKey.currentState!.validate();
           if (isValid) {
             formKey.currentState!.save();
-
           }
         },
         child: Text("Submit"),
       );
+  Widget datePicker()=>Container(
+    child: Expanded(
+      child: Row(
+        children: [
+          IconButton(onPressed: ()async{
+              DateTime? newDate=await showDatePicker(context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime.now().subtract(Duration(days: 1)),
+                  lastDate:DateTime(2100));
+              if(newDate==null)return;
+              setState(()=>dt=newDate);
+          }, icon: Icon(Icons.calendar_month,color: Colors.black,)),
+          SizedBox(width: 10,),
+
+          TextFormField(initialValue: '${dt.day.toString()}/${dt.month.toString()}/${dt.year.toString()}')
+        ],
+      ),
+    ),
+  );
+  Widget dateOnly() =>IconButton(onPressed: ()async{
+  DateTime? newDate=await showDatePicker(context: context,
+  initialDate: DateTime.now(),
+  firstDate: DateTime.now().subtract(Duration(days: 1)),
+  lastDate:DateTime(2100));
+  if(newDate==null)return;
+  setState(()=>dt=newDate);
+}, icon: Icon(Icons.calendar_month,color: Colors.black,));
 }
+
