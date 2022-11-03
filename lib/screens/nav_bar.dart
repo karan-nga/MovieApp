@@ -4,33 +4,35 @@ import 'package:movie/screens/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class NavBar extends StatelessWidget {
+  String getEmail='';
+
   @override
   Widget build(BuildContext context) {
+    fun();
     return Drawer(backgroundColor: Color(0xff191826),
       child: ListView(
         // Remove padding
         padding: EdgeInsets.zero,
         children: [
           UserAccountsDrawerHeader(
-            accountName: Text('Laura'),
-            accountEmail: Text('Laura@gmail.com'),
-            currentAccountPicture: CircleAvatar(
+            accountEmail: Text(getEmail),
+            currentAccountPicture: CircleAvatar(backgroundColor: Colors.transparent,
               child: ClipOval(
-                child: Image.network(
-                  'https://oflutter.com/wp-content/uploads/2021/02/girl-profile.png',
+                child: Image.asset(
+                  'assests/man.png',
                   fit: BoxFit.cover,
                   width: 90,
                   height: 90,
                 ),
               ),
             ),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Colors.blue,
               image: DecorationImage(
                   fit: BoxFit.fill,
                   image: NetworkImage(
                       'https://oflutter.com/wp-content/uploads/2021/02/profile-bg3.jpg')),
-            ),
+            ), accountName: null,
           ),
           ListTile(
             leading: Icon(Icons.logout,color: Colors.white,size: 23),
@@ -54,5 +56,9 @@ class NavBar extends StatelessWidget {
         ],
       ),
     );
+  }
+  fun() async {
+    SharedPreferences preference=await SharedPreferences.getInstance();
+    getEmail=preference.getString('email')!;
   }
 }

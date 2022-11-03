@@ -38,6 +38,7 @@ dependencies:
   http: ^0.13.5
   transparent_image: ^2.0.0
   shared_preferences: ^2.0.15
+  firebase_database: ^10.0.4
 
 
 

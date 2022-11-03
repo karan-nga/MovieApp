@@ -1,19 +1,42 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../reuse/reuseWidget.dart';
-
 class MovieBooking extends StatefulWidget {
+  final String movieName;
+
+  MovieBooking(this.movieName);
+
   @override
-  State<MovieBooking> createState() => _MovieBookingState();
+  State<MovieBooking> createState() => _MovieBookingState(movieName);
 }
 
 class _MovieBookingState extends State<MovieBooking> {
+  final timeList = [
+    "9:30AM-11:30AM",
+    "12:30PM-2:30PM",
+    "3PM-5PM",
+    "6:30PM-8:30PM",
+    "9:30PM-11:30PM"
+  ];
+
+  DateTime dt = DateTime(2022, 11, 04);
   final formKey = GlobalKey<FormState>();
   String name = '';
   String email = '';
   String contact = '';
   String ticketNo = '';
+  String dropdownvalue = "9:30AM-11:30AM";
+  String movieName;
+  late DatabaseReference dbRef;
+
+  _MovieBookingState(this.movieName);
+
+  @override
+  void initState() {
+    super.initState();
+    dbRef = FirebaseDatabase.instance.ref().child("Booking Details");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +65,12 @@ class _MovieBookingState extends State<MovieBooking> {
               const SizedBox(
                 height: 15,
               ),
+              dateOnly(),
+              const SizedBox(
+                height: 15,
+              ),
+              timeSelector(),
+              SizedBox(height: 10),
               buildSubmit()
             ],
           ),
@@ -87,6 +116,8 @@ class _MovieBookingState extends State<MovieBooking> {
         validator: (value) {
           if (value!.length > 10) {
             return 'Please enter only 10 digit number';
+          } else if (value.isEmpty) {
+            return 'Please enter 10 digit phone number';
           } else {
             return null;
           }
@@ -109,9 +140,118 @@ class _MovieBookingState extends State<MovieBooking> {
           final isValid = formKey.currentState!.validate();
           if (isValid) {
             formKey.currentState!.save();
+             fireBaseBookingData();
 
           }
         },
-        child: Text("Submit"),
+        child: Text("Book Ticket",style: TextStyle(fontSize: 17),),
+
       );
+
+  Widget datePicker() => Container(
+        child: Expanded(
+          child: Row(
+            children: [
+              IconButton(
+                  onPressed: () async {
+                    DateTime? newDate = await showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime.now().subtract(Duration(days: 1)),
+                        lastDate: DateTime(2100));
+                    if (newDate == null) return;
+                    setState(() => dt = newDate);
+                  },
+                  icon: Icon(
+                    Icons.calendar_month,
+                    color: Colors.black,
+                  )),
+              SizedBox(
+                width: 10,
+              ),
+              TextFormField(
+                  initialValue:
+                      '${dt.day.toString()}/${dt.month.toString()}/${dt.year.toString()}')
+            ],
+          ),
+        ),
+      );
+
+  Widget dateOnly() =>
+      Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+        IconButton(
+            onPressed: () async {
+              DateTime? newDate = await showDatePicker(
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime.now().subtract(Duration(days: 1)),
+                  lastDate: DateTime(2100));
+              if (newDate == null) return;
+              setState(() => dt = newDate);
+            },
+            icon: Icon(
+              Icons.calendar_month,
+              color: Colors.blueAccent,
+            )),
+        SizedBox(width: 20),
+        Text(
+          '${dt.day}/${dt.month}/${dt.year}',
+          style: TextStyle(
+            fontSize: 18,
+            color: Colors.black
+          ),
+        )
+      ]);
+
+  Widget timeSelector() =>
+      Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+        Text(
+          "Choose timing",
+          style: TextStyle(
+              fontSize: 18,  color: Colors.black),
+        ),
+        SizedBox(width: 20),
+        DropdownButton(
+          borderRadius: BorderRadius.circular(10),
+
+          dropdownColor: Colors.white,
+          style: TextStyle(
+              fontSize: 16,  color: Colors.black,letterSpacing: 0.5),
+          // Initial Value
+          value: dropdownvalue,
+
+          // Down Arrow Icon
+          icon: const Icon(Icons.keyboard_arrow_down),
+
+          // Array list of items
+          items: timeList.map((String items) {
+            return DropdownMenuItem(
+              value: items,
+              child: Text(items),
+            );
+          }).toList(),
+          // After selecting the desired option,it will
+          // change button value to selected value
+          onChanged: (String? newValue) {
+            setState(() {
+              dropdownvalue = newValue!;
+            });
+          },
+        ),
+      ]);
+
+  void fireBaseBookingData() {
+    Map<String, String> book = {
+      "Movies Name": movieName.trim(),
+      "Customer Name": name.trim(),
+      "Customer Email": email.trim(),
+      "Customer Contact Number": contact.trim(),
+      "Number of Tickets": ticketNo.trim(),
+      "Booking Data":
+          '${dt.day.toString()}/${dt.month.toString()}/${dt.year.toString()}',
+      "Booking Time": dropdownvalue.toString()
+    };
+    dbRef.push().set(book);
+    print(dbRef.onChildAdded.hashCode.toString());
+  }
 }
