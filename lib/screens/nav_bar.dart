@@ -8,7 +8,7 @@ class NavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    fun();
+  fun();
     return Drawer(backgroundColor: Color(0xff191826),
       child: ListView(
         // Remove padding

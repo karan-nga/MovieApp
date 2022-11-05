@@ -18,7 +18,8 @@ class MoviesDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    return Scaffold(backgroundColor: Colors.white,
+    return Scaffold(
+        backgroundColor: Colors.white,
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(size.height / 3),
           child: SafeArea(
@@ -40,22 +41,20 @@ class MoviesDetails extends StatelessWidget {
           child: Column(
             verticalDirection: VerticalDirection.down,
             children: <Widget>[
-
               SizedBox(height: 10.0),
               Text(
                 nameMovie,
                 style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 10.0),
-
-               Text("Overview",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 22)),
-              SizedBox(height: 10,),
+              Text("Overview",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22)),
+              SizedBox(
+                height: 10,
+              ),
               Text(
                 overview,
-                style: TextStyle(
-                  fontSize: 20.0,
-                  color: Colors.black
-                ),
+                style: TextStyle(fontSize: 20.0, color: Colors.black),
               ),
               SizedBox(height: 10.0),
               Row(
@@ -65,42 +64,34 @@ class MoviesDetails extends StatelessWidget {
                     margin: EdgeInsets.only(left: 1.0, right: 1.0),
                   ),
                   Text(
-
                     "Rating:" + rating,
-                    style: TextStyle(
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold
-                    ),
+                    style:
+                        TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
                   ),
                   Icon(
                     Icons.favorite,
                     color: Colors.red,
                   ),
-
                 ],
               ),
               SizedBox(height: 30),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-               verticalDirection: VerticalDirection.down,
+                verticalDirection: VerticalDirection.down,
                 children: [
-                  firebaseUIButton(context,"Book Ticket",(){
+                  firebaseUIButton(context, "Book Ticket", () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (BuildContext context) =>
                             MovieBooking(nameMovie),
                       ),
-
                     );
                   })
                 ],
               )
             ],
-
           ),
-
-        )
-    );
+        ));
   }
 }

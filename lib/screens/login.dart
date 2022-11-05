@@ -30,10 +30,10 @@ class _MyLoginState extends State<MyLogin> {
       ),
       child: Scaffold(
         appBar: AppBar(
-          centerTitle: false,
+          centerTitle: true,
           title: Text(
             'Login',
-            style: TextStyle(fontSize: 25.0, color: Colors.black),
+            style: TextStyle(fontSize: 25.0, color: Colors.black,fontWeight: FontWeight.bold),
           ),
           elevation: 0.0,
           backgroundColor: Colors.transparent,
@@ -46,7 +46,7 @@ class _MyLoginState extends State<MyLogin> {
               padding: EdgeInsets.only(left: 35, top: 100),
               child: Text(
                 'Welcome\nBack',
-                style: TextStyle(color: Colors.white, fontSize: 33),
+                style: TextStyle(color: Colors.amber, fontSize: 33,fontWeight: FontWeight.w500),
               ),
             ),
             SingleChildScrollView(

@@ -14,24 +14,27 @@ class Movies extends StatefulWidget {
 }
 
 class _MoviesState extends State<Movies> {
+
   late List<Result> moviesData;
   bool waiting = true;
 
   @override
   void initState() {
     super.initState();
+    print("call1");
     getMovies();
   }
 
   Future getMovies() async {
+    print("call api");
     http.Response response;
     response = await http.get(Uri.parse(
         'https://api.themoviedb.org/3/movie/popular?api_key=7d79a0348d08945377e89a95cd670c5a&language=en-US'));
     if (response.statusCode == 200) {
       final moviesResult = moviesResultFromJson(response.body);
       moviesData = moviesResult.results;
-      print(response.headers.toString());
-      print(moviesResult.toJson().toString());
+      // print(response.headers.toString());
+      // print(moviesResult.toJson().toString());
 
       setState(() {
         waiting = false;
@@ -82,6 +85,7 @@ class _MoviesState extends State<Movies> {
                     physics: NeverScrollableScrollPhysics(),
                     itemCount: (moviesData != null) ? moviesData.length : 0,
                     itemBuilder: (BuildContext context, index) {
+                      print("list view call");
                       return InkWell(
                         onTap: () {
                           Navigator.push(

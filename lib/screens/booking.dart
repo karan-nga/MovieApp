@@ -1,6 +1,8 @@
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:movie/reuse/reuseWidget.dart';
 
 class MovieBooking extends StatefulWidget {
   final String movieName;
@@ -28,9 +30,11 @@ class _MovieBookingState extends State<MovieBooking> {
   String ticketNo = '';
   String dropdownvalue = "9:30AM-11:30AM";
   String movieName;
+  bool isBook=false;
   late DatabaseReference dbRef;
 
   _MovieBookingState(this.movieName);
+
 
   @override
   void initState() {
@@ -72,6 +76,7 @@ class _MovieBookingState extends State<MovieBooking> {
               timeSelector(),
               SizedBox(height: 10),
               buildSubmit()
+
             ],
           ),
         ));
@@ -139,8 +144,9 @@ class _MovieBookingState extends State<MovieBooking> {
         onPressed: () {
           final isValid = formKey.currentState!.validate();
           if (isValid) {
+            isBook=isValid;
             formKey.currentState!.save();
-             fireBaseBookingData();
+
 
           }
         },
@@ -240,6 +246,40 @@ class _MovieBookingState extends State<MovieBooking> {
         ),
       ]);
 
+      Widget firebaseData()=>Container(
+        child: FirebaseAnimatedList(
+          scrollDirection: Axis.vertical,
+          shrinkWrap: true,
+          query: dbRef,
+          itemBuilder: (BuildContext context, DataSnapshot snapshot, Animation<double> animation, int index) {
+            if(isBook==true) {
+
+              Map bookings = snapshot.value as Map;
+              bookings['key'] = snapshot.key;
+              print("called");
+              for (String key in bookings.keys) {
+                print(key);
+                String moviename = bookings['Movies Name'];
+                String date = bookings['Booking Data'];
+                String time = bookings['Booking Time'];
+                print(moviename + date + time);
+                if (name == movieName &&
+                    date == '${dt.day}/${dt.month}/${dt.year}' &&
+                    time == dropdownvalue) {
+                  snackbar(context, "Please choose a different slot");
+                  isBook = true;
+                  break;
+                }
+              }
+            }
+
+            print(index);
+             return SizedBox();
+
+             },
+        ),
+
+      );
   void fireBaseBookingData() {
     Map<String, String> book = {
       "Movies Name": movieName.trim(),
@@ -254,4 +294,7 @@ class _MovieBookingState extends State<MovieBooking> {
     dbRef.push().set(book);
     print(dbRef.onChildAdded.hashCode.toString());
   }
+
+
+
 }

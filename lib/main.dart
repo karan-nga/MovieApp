@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:movie/screens/login.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:movie/screens/movies.dart';
-import 'package:movie/screens/movies_list.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future main() async{

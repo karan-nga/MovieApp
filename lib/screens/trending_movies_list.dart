@@ -1,18 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+
 import '../models/trending_model.dart';
 import 'detail.dart';
 
 class TrendingMoviesList extends StatefulWidget {
-
   @override
   State<TrendingMoviesList> createState() => _TrendingMoviesListState();
 }
 
 class _TrendingMoviesListState extends State<TrendingMoviesList> {
-  List<TrendingResult> list=[];
+  List<TrendingResult> list = [];
   bool waiting = true;
+
   @override
   void initState() {
     super.initState();
@@ -33,9 +34,7 @@ class _TrendingMoviesListState extends State<TrendingMoviesList> {
     } else {
       print('Request failed with status :${response.statusCode}');
     }
-
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -44,58 +43,63 @@ class _TrendingMoviesListState extends State<TrendingMoviesList> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Treding List"
-            , style: TextStyle(fontSize: 22,
-                fontWeight: FontWeight.bold,
-                color: Colors.white),),
+          Text(
+            "Treding List",
+            style: TextStyle(
+                fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white),
+          ),
           SizedBox(height: 10),
           Container(
               height: 270,
               child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: (list != null) ? list.length : 0,
-                  itemBuilder: (context, index){
-                     if(waiting==true||list.isEmpty==true){
-                       return Center(
-                           child: CircularProgressIndicator(color: Colors.blueAccent,)
-                       );
-                     }
-                     else {
-                       return InkWell(
-                         // onTap: () {
-                         //   Navigator.push(
-                         //       context,
-                         //       MaterialPageRoute(
-                         //           builder: (context) =>
-                         //               MoviesDetails(list, index)));
-                         // },
-                         child: Container(
-                           width: 140,
-
-                           child: Column(
-                             children: [
-                               Container(
-                                 decoration: BoxDecoration(
-                                     image: DecorationImage(
-                                       image: NetworkImage(
-                                           'https://image.tmdb.org/t/p/w500${list[index]
-                                               .posterPath}'),
-                                     ), borderRadius: BorderRadius.circular(20)
-                                 ),
-                                 height: 200,
-                               ),
-                               SizedBox(height: 5),
-                               Container(
-
-                                   child: Text(list[index].title.toString(),
-                                     style: TextStyle(color: Colors.grey),
-                                     textAlign: TextAlign.start,)
-                               )
-                             ],
-                           ),
-                         ),
-                       );
-                     }
+                  itemBuilder: (context, index) {
+                    if (waiting == true || list.isEmpty == true) {
+                      return Center(
+                          child: CircularProgressIndicator(
+                        color: Colors.blueAccent,
+                      ));
+                    } else {
+                      return InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MoviesDetails(
+                                      list[index].posterPath.toString(),
+                                      list[index].originalTitle.toString(),
+                                      list[index].overview.toString(),
+                                      list[index].voteAverage.toString(),
+                                      list[index].releaseDate.toString())));
+                        },
+                        child: Container(
+                          width: 140,
+                          child: Column(
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image: NetworkImage(
+                                          'https://image.tmdb.org/t/p/w500${list[index].posterPath}'),
+                                      onError: (exception, stackTrace) =>
+                                          {AssetImage("assests/load.png")},
+                                    ),
+                                    ),
+                                height: 200,
+                              ),
+                              SizedBox(height: 5),
+                              Container(
+                                  child: Text(
+                                list[index].title.toString(),
+                                style: TextStyle(color: Colors.grey),
+                                textAlign: TextAlign.start,
+                              ))
+                            ],
+                          ),
+                        ),
+                      );
+                    }
                   }))
         ],
       ),

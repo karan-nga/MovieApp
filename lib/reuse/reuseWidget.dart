@@ -13,17 +13,17 @@ TextFormField reusableTextField(String text, IconData icon, bool isPasswordType,
     decoration: InputDecoration(
       prefixIcon: Icon(
         icon,
-        color: Colors.grey.shade500,
+        color: Colors.black,
       ),
       labelText: text,
-      labelStyle: TextStyle(color: Colors.grey.shade500.withOpacity(0.9)),
+      labelStyle: TextStyle(color: Colors.black),
       filled: true,
       floatingLabelBehavior: FloatingLabelBehavior.never,
       fillColor: Colors.white.withOpacity(0.3),
       border: OutlineInputBorder(
 
           borderRadius: BorderRadius.circular(30.0),
-          borderSide: const BorderSide(width: 0, style: BorderStyle.solid)),
+          borderSide: const BorderSide(width: 0, style: BorderStyle.solid,color: Colors.black)),
     ),
     keyboardType: isPasswordType
         ? TextInputType.visiblePassword
