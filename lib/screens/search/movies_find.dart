@@ -35,24 +35,24 @@ class _MoviesFindState extends State<MoviesFind> {
 class MoviesDelegate extends SearchDelegate<String> {
   List<Result> moviesData = [];
 
-  Future<List<Result>> searchMovie(String name) async {
+  Future<List<Result>> searchMovie() async {
     http.Response response;
-    name.replaceAll(' ', '');
-    if (name.isEmpty == false) {
-      response = await http.get(Uri.parse('${ApiConstants.SearchUrl}+$name'));
-      print("searchMovie called with name=" + name);
-      if (response.statusCode == 200) {
-        final moviesResult = searchModelFromJson(response.body);
-        moviesData = moviesResult.results;
-        print("data from search" + moviesData.toString());
-      } else {
-        print('Request failed with status :${response.statusCode}');
-        print(response.statusCode);
-      }
-    }
-    return moviesData;
-  }
+     if(query.isEmpty==false) {
+       String api='${ApiConstants.SearchUrl}+${query.trim()}';
+       response = await http.get(Uri.parse(api));
+       print("searchMovie called with name=" + query);
+       if (response.statusCode == 200) {
+         final moviesResult = searchModelFromJson(response.body);
+         moviesData = moviesResult.results;
+         print("data from search" + moviesData.toString());
+       } else {
+         print('Request failed with status :${response.statusCode}');
+         print(response.statusCode);
+       }
+     }
+       return moviesData;
 
+}
   @override
   List<Widget>? buildActions(BuildContext context) => [
         IconButton(
@@ -74,25 +74,13 @@ class MoviesDelegate extends SearchDelegate<String> {
       );
 
   @override
-  Widget buildResults(BuildContext context) => Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.location_city, size: 120),
-            const SizedBox(height: 40),
-            Text(
-              query,
-              style: TextStyle(color: Colors.black, fontSize: 64),
-            ),
-          ],
-        ),
-      );
+  Widget buildResults(BuildContext context) =>buildSuggestions(context);
 
   @override
   Widget buildSuggestions(BuildContext context) => Container(
     color:Color(0xff191826),
     child: FutureBuilder<List<Result>>(
-          future: searchMovie(query.toString()),
+          future: searchMovie(),
           builder: (context, snapshot) {
             print("box contain" + query.toString());
             if (query.isEmpty) return noSearch();
@@ -101,26 +89,25 @@ class MoviesDelegate extends SearchDelegate<String> {
               case ConnectionState.waiting:
                 return Center(child: CircularProgressIndicator());
               default:
-                if (snapshot.hasError || snapshot.data!.isEmpty) {
+                if (snapshot.hasError||snapshot.data!.isEmpty) {
                   print("movies list data" + moviesData.toString());
                   print(snapshot.error);
                   print(snapshot.data.toString());
                   return noResult();
-                } else {
+                }
+                  else {
                   return buildSuggestionsSuccess(snapshot.data!);
                 }
             }
           },
         ),
   );
-
   Widget noSearch() {
     return Center(
       child: Text("Search your movies",
           style: TextStyle(fontSize: 28, color: Colors.amber)),
     );
   }
-
   Widget noResult() {
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -134,10 +121,7 @@ class MoviesDelegate extends SearchDelegate<String> {
       ),
     );
   }
-
-
   Widget buildSuggestionsSuccess(List<Result> suggestions) {
-    suggestions = moviesData;
     return ListView.builder(
         itemCount: suggestions.isEmpty != true ? suggestions.length : 0,
         itemBuilder: (context, index) {
@@ -158,7 +142,8 @@ class MoviesDelegate extends SearchDelegate<String> {
                     MaterialPageRoute(
                         builder: (context) =>
                             MoviesDetails(moviesData[index].posterPath.toString(),
-                                moviesData[index].title.toString(),moviesData[index].overview.toString(),
+                                moviesData[index].title.toString(),
+                                moviesData[index].overview.toString(),
                             moviesData[index].voteAverage.toString(),
                             moviesData[index].releaseDate.toString())));
               },
@@ -187,7 +172,8 @@ class MoviesDelegate extends SearchDelegate<String> {
                 imageErrorBuilder: (context, error, stackTrace) {
                   return Image.asset('assests/warning.png');
                 },
-              ));
+              )
+          );
         });
   }
 }

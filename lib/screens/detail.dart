@@ -21,7 +21,7 @@ class MoviesDetails extends StatelessWidget {
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(size.height / 3),
+          preferredSize: Size.fromHeight(size.height / 2.6),
           child: SafeArea(
             child: AppBar(
               title: Text(nameMovie),
@@ -39,7 +39,7 @@ class MoviesDetails extends StatelessWidget {
         ),
         body: SingleChildScrollView(
           child: Column(
-            verticalDirection: VerticalDirection.down,
+
             children: <Widget>[
               SizedBox(height: 10.0),
               Text(
@@ -92,6 +92,8 @@ class MoviesDetails extends StatelessWidget {
               )
             ],
           ),
-        ));
+
+        )
+    );
   }
 }
