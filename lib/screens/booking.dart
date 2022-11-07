@@ -22,7 +22,7 @@ class _MovieBookingState extends State<MovieBooking> {
     "9:30PM-11:30PM"
   ];
 
-  DateTime dt = DateTime(2022, 11, 04);
+  DateTime dt = DateTime.now();
   final formKey = GlobalKey<FormState>();
   String name = '';
   String email = '';
@@ -142,10 +142,12 @@ class _MovieBookingState extends State<MovieBooking> {
 
   Widget buildSubmit() => ElevatedButton(
         onPressed: () {
+
           final isValid = formKey.currentState!.validate();
           if (isValid) {
             isBook=isValid;
             formKey.currentState!.save();
+            fireBaseBookingData();
 
 
           }
@@ -190,7 +192,7 @@ class _MovieBookingState extends State<MovieBooking> {
               DateTime? newDate = await showDatePicker(
                   context: context,
                   initialDate: DateTime.now(),
-                  firstDate: DateTime.now().subtract(Duration(days: 1)),
+                  firstDate: DateTime.now(),
                   lastDate: DateTime(2100));
               if (newDate == null) return;
               setState(() => dt = newDate);
