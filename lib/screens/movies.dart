@@ -173,7 +173,7 @@ class _MoviesState extends State<Movies> {
                       );
                     },
                   ),
-                  Flexible(child: TrendingMoviesList()),
+                  TrendingMoviesList(),
                 ],
               ),
             ),

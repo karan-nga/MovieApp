@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:movie/reuse/reuseWidget.dart';
  import 'package:movie/screens/login.dart';
-import 'package:movie/screens/movies.dart';
+
 
 class MyRegister extends StatefulWidget {
   const MyRegister({Key? key}) : super(key: key);
@@ -67,20 +67,21 @@ class _MyRegisterState extends State<MyRegister> {
                             height: 40,
                           ),
                           firebaseUIButton(context, "Register", () {
+                            RegExp regex = new RegExp(r'^.{6,}$');
                             if (email.text.isEmpty) {
                               snackbar(context, "Please enter mail");
                             }
                             // reg expression for email validation
-                             if (!RegExp(
+                            else if (!RegExp(
                                     "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
                                 .hasMatch(email.text)) {
                               snackbar(context, "Please Enter a valid email");
                             }
-                            RegExp regex = new RegExp(r'^.{6,}$');
-                            if (pass.text.isEmpty) {
+
+                           else if (pass.text.isEmpty) {
                               snackbar(context, "Please enter password");
                             }
-                            if (!regex.hasMatch(pass.text)) {
+                           else if (!regex.hasMatch(pass.text)) {
                               snackbar(context, "please enter minimum 6 length password");
                             }
                              else {
