@@ -103,6 +103,7 @@ class _MoviesState extends State<Movies> {
 
                             Container(
                               height: 250,
+                              width: 170,
                               color: Colors.transparent,
                               alignment: Alignment.centerLeft,
                               child: Card(color: Colors.transparent,
@@ -128,7 +129,7 @@ class _MoviesState extends State<Movies> {
                                   children: [
 
                                     Text(
-                                      moviesData[index].originalTitle,
+                                      moviesData[index].title,
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 22,

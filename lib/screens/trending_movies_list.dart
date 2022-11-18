@@ -23,7 +23,7 @@ class _TrendingMoviesListState extends State<TrendingMoviesList> {
   Future getTranding() async {
     http.Response response;
     response = await http.get(Uri.parse(
-        'https://api.themoviedb.org/3/trending/movie/day?api_key=7d79a0348d08945377e89a95cd670c5a'));
+        'https://api.themoviedb.org/3/trending/movie/week?api_key=7d79a0348d08945377e89a95cd670c5a'));
     if (response.statusCode == 200) {
       final moviesResult = tredingModelFromJson(response.body);
       list = moviesResult.results!;

@@ -4,6 +4,21 @@ import 'package:movie/reuse/reuseWidget.dart';
  import 'package:movie/screens/login.dart';
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
 class MyRegister extends StatefulWidget {
   const MyRegister({Key? key}) : super(key: key);
 
