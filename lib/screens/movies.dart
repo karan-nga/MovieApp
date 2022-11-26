@@ -93,7 +93,7 @@ class _MoviesState extends State<Movies> {
                               MaterialPageRoute(
                                   builder: (context) =>
                                       MoviesDetails(moviesData[index].posterPath.toString(),
-                                      moviesData[index].title.toString(),moviesData[index].overview,
+                                      moviesData[index].title.toString(),moviesData[index].overview.toString(),
                                       moviesData[index].voteAverage.toString(),
                                       moviesData[index].releaseDate.toString())));
                         },
@@ -129,7 +129,7 @@ class _MoviesState extends State<Movies> {
                                   children: [
 
                                     Text(
-                                      moviesData[index].title,
+                                      moviesData[index].title.toString(),
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 22,
@@ -150,7 +150,7 @@ class _MoviesState extends State<Movies> {
                                       height: 10,
                                     ),
                                     Text(
-                                      moviesData[index].overview,
+                                      moviesData[index].overview.toString(),
                                       maxLines: 3,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
